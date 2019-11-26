@@ -9,11 +9,9 @@ employee_exit.use(bodyParser.json());
 employee_exit.use(bodyParser.urlencoded({extended:true}));
 
 employee_exit.route('/')
-.all(function(req,res,next){
-   res.setHeader('Content-Type','application/json');
-   next();
-})
+
 .get(function(req,res,next){
+//   res.setHeader('Content-Type','text/html');
    let path_to_directory =  path.dirname(__dirname);
    res.sendFile(path_to_directory + '/public/employee/exit.html');
 })

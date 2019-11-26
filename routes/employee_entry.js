@@ -9,11 +9,8 @@ employee_entry.use(bodyParser.json());
 
 
 employee_entry.route('/')
-.all(function(req,res,next){
-   res.setHeader('Content-Type','application/json');
-   next();
-})
 .get(function(req,res,next){
+   res.statusCode = 200;
    let path_to_directory =  path.dirname(__dirname);
    res.sendFile(path_to_directory + '/public/employee/entry.html');
 })

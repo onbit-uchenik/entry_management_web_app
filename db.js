@@ -144,6 +144,44 @@ async function check_exit(values){
 }
 
 
+async function visitor(values){
+    try{
+        let text = 'INSERT INTO visitor VALUES($1,$2,$3,$4,$5)';
+        await client.query(text,values);
+        return {"status":5};
+    }
+    catch(err){
+        console.log(__filename + ' on line number 152' + err);
+        return {"status":0};
+    }
+}
+
+async function visit_summary(values){
+    try{
+        let text = 'INSERT INTO visit_summary VALUES($1,$2,$3,$4)';
+        await client.query(text,values);
+        return {"status":6};
+    }
+    catch(err) {
+        console.log(__filename + ' on line number 152' + err);
+        return {"status":0};
+    }
+}
+
+
+async function getEmp(emp_id){
+    try{
+        let text = 'SELECT * FROM emp WHERE emp_id=$1';
+        let result = await client.query(text,emp_id);
+        console.log(result);
+        result.rows[0].status = 1;
+        return result.rows[0];
+    }
+    catch(err){
+        console.log(__filename + ' on line number 181' + err);
+        return {"status":0};
+    }
+}
 //start();
 //entry(['8708823287','2019-07-23 06:36:45',2,'1']);
 //exit(['8708823287','2017-09-06 08:45:34',3]);
@@ -154,3 +192,6 @@ module.exports.start = start;
 module.exports.stop = stop;
 module.exports.entry = entry;
 module.exports.exit = exit;
+module.exports.visit_summary = visit_summary;
+module.exports.visitor = visitor;
+module.exports.getEmp = getEmp;
