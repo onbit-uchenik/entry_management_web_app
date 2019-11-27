@@ -156,7 +156,7 @@ async function visitor(values){
     try{
         let text = 'INSERT INTO visitor VALUES($1,$2,$3,$4,$5)';
         await client.query(text,values);
-        return {"status":5};
+        return {"status":1};
     }
     catch(err){
         console.log(__filename + ' on line number 162' + err);
@@ -168,7 +168,7 @@ async function visit_summary(values){
     try{
         let text = 'INSERT INTO visit_summary VALUES($1,$2,$3,$4)';
         await client.query(text,values);
-        return {"status":6};
+        return {"status":1};
     }
     catch(err) {
         console.log(__filename + ' on line number 152' + err);
@@ -197,6 +197,31 @@ async function getEmp(emp_id){
     }
 }
 
+
+async function isPresent(values) {
+    try{
+        let result =  await check_entry([values[0]]);
+        if(result !== 0){
+            if(result === null) {
+                console.log('employee is present in office');
+                return {"status":1};
+            }
+            else{
+                console.log('employee is absent');
+                return {"status":5};
+            }
+        }
+        else {
+            console.log('error on line number 213');
+            return {"status":0};
+        }
+    }
+    catch(err){
+        console.log(__filename + ' on line number 220' + err);
+        return {"status":0};
+    }
+}
+
 //start();
 //entry(['9415436545','2019-07-23 06:36:45',2,'1']);
 //getEmp([21]);
@@ -211,3 +236,4 @@ module.exports.exit = exit;
 module.exports.visit_summary = visit_summary;
 module.exports.visitor = visitor;
 module.exports.getEmp = getEmp;
+module.exports.isPresent = isPresent;

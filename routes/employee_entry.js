@@ -39,7 +39,7 @@ employee_entry.route('/')
             else{
                // error while getting emp details..
                res.statusCode = 500;;
-               res.join(result);
+               res.json(result);
                res.end();
             }
          }
