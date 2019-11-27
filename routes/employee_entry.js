@@ -17,20 +17,39 @@ employee_entry.route('/')
 
 .post(function(req,res,next) {
    let date = new Date();
-   let values=[req.body.phone_no, date.getCompleteDate(),req.body.entry_gate, req.body.isemployee];
+   let timestamp = date.getCompleteDate();
+   // try to get the emp phone_no...
+   // if successfull run enter function...
    (async function(){
-         try{
-            let result = await db.entry(values);
-            res.statusCode = 200;
-            res.json(result);
-
+        try{
+            let values = [req.body.emp_id];
+            let result = await db.getEmp(values);
+            if(result.status === 1) {
+               // successful in getting emp details
+               // enter nicely....
+               await enter(req,res,result.phone_no,timestamp);
+            }
+            else if(result.status === 4){
+               //employee with emp id do not exist...
+               console.log("employee does not exist...")
+               res.statusCode = 500;
+               res.json(result);
+               res.end();
+            }
+            else{
+               // error while getting emp details..
+               res.statusCode = 500;;
+               res.join(result);
+               res.end();
+            }
          }
          catch(err){
             res.statusCode = 500;
             res.json({"status":0});
-            console.log(__filename + err);   
+            console.log(__filename + err);
+            res.end();
          }
-         res.end();
+         
    })(); 
 })
 .put(function(req,res,next){
@@ -43,6 +62,23 @@ employee_entry.route('/')
    res.json({"status":0});
    res.end();
 });
+
+
+async function enter(req,res,phone_no,timestamp){
+   try{
+      let values=[phone_no, timestamp,req.body.entry_gate, req.body.isemployee];
+      let result = await db.entry(values);
+      res.statusCode = 200;
+      res.json(result);
+
+   }
+   catch(err){
+      res.statusCode = 500;
+      res.json({"status":0});
+      console.log(__filename + err);   
+   }
+   res.end();
+}
 
 
 module.exports = employee_entry;
