@@ -86,7 +86,7 @@ async function check_entry(values){
 }
 async function getMaxId(values){
     try{
-        let text = `SELECT MAX(id) FROM hitory WHERE phone_no=$1`;
+        let text = `SELECT MAX(id) FROM history WHERE phone_no=$1`;
         let result = await client.query(text,values);
         return result.rows[0].max;
     }
@@ -197,9 +197,9 @@ async function getEmp(emp_id){
     }
 }
 
-start();
+//start();
 //entry(['9415436545','2019-07-23 06:36:45',2,'1']);
-getEmp([21]);
+//getEmp([21]);
 //exit(['8708823287','2017-09-06 08:45:34',3]);
 //exit(['9415436545','2017-08-06 09:42:20',4])
 

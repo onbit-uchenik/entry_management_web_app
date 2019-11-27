@@ -32,7 +32,7 @@ employee_entry.route('/')
             else if(result.status === 4){
                //employee with emp id do not exist...
                console.log("employee does not exist...")
-               res.statusCode = 500;
+               res.statusCode = 404;
                res.json(result);
                res.end();
             }
@@ -63,7 +63,8 @@ employee_entry.route('/')
    res.end();
 });
 
-
+// enters the employee....
+// on success update the history table.....
 async function enter(req,res,phone_no,timestamp){
    try{
       let values=[phone_no, timestamp,req.body.entry_gate, req.body.isemployee];
