@@ -29,7 +29,7 @@ visitor_entry.route('/')
          else if(result.status === 4){
             //employee with emp id do not exist...
             console.log("employee does not exist...")
-            res.statusCode = 404;
+            res.statusCode = 200;
             res.json(result);
             res.end();
          }
@@ -49,16 +49,36 @@ visitor_entry.route('/')
    })();
 })
 .put(function(req,res,next) {
-   res.statusCode = 500;
+   res.statusCode = 404;
    res.json({"status":0});
    console.log(__filename + err);            
-
+   res.end();
 })
 .delete(function(req,res,next) {
-   res.statusCode = 500;
+   res.statusCode = 404;
    res.json({"status":0});
-   console.log(__filename + err);            
+   console.log(__filename + err);
+   res.end();            
 });
+
+visitor_entry.route('/emp_details') 
+.get(function(req,res,next){
+   (async function() {
+      try{
+         let result  = await  db.getAllEmp();
+         res.statusCode = 200;
+         res.json(result);
+
+      }
+      catch(err) {
+         res.statusCode = 500;
+         res.json({"status":0});
+         console.log(__filename + err);
+      }
+      res.end();
+   })();
+});
+
 
 async function check_emp_present(values,req,res,timestamp,host){
    try{
@@ -66,21 +86,27 @@ async function check_emp_present(values,req,res,timestamp,host){
       if(result.status === 1){
          //employee is present...
          let a = await enter(req,res,req.body.phone_no,timestamp);
-         let b = await addVisitor(req,res,req.body.phone_no);
-         let c = await addVisitorSummary(req,res,req.body.phone_no,timestamp);
-         await mail(host,req);
-         if(a&&b&&c) {
-            res.statusCode= 200;
-            res.json({"status":1});
+         if(a===1){
+            let b = await addVisitor(req,res,req.body.phone_no);
+            let c = await addVisitorSummary(req,res,req.body.phone_no,timestamp);
+            if(b&&c) {
+               res.statusCode= 200;
+               res.json({"status":1});
+            }
+            else {
+               res.statusCode = 500;
+               res.json({"status":0});   
+            }
+            // await mail(host,req);
          }
-         else {
-            res.statusCode = 500;
-            res.json({"status":0});   
+         else if(a===2){
+            res.statusCode = 200;
+            res.json({"status":2})
          } 
       }
       else if(result.status === 5){
          //employee is absent.....
-         res.statusCode = 404;
+         res.statusCode = 200;
          console.log(result);
          res.json(result);
       }
@@ -154,7 +180,11 @@ async function mail(details,req) {
          to:`${req.body.email}`,
          subject:"Visitor Detail",
          text:`hello ${details.first_name + ' ' + details.last_name},
-Respected ${req.body.firstname + ' ' + req.body.lastname} is coming to meet you.
+Visitor with details:
+Name: ${req.body.first_name} + ${req.body.last_name}
+Phone_no:${req.body.phone_no}
+Email:${req.body.email}
+is coming to meet you. 
          
 Have a nice meeting...`
       };

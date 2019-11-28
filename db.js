@@ -222,6 +222,19 @@ async function isPresent(values) {
     }
 }
 
+async function getAllEmp() {
+    try{
+        let result = await client.query('SELECT emp_id,first_name,last_name,designation FROM emp')
+        return result.rows;
+    }
+    catch(err){
+        console.log(__filename + ' on line number 220' + err);
+        return [];
+        
+    }
+}
+
+
 //start();
 //entry(['9415436545','2019-07-23 06:36:45',2,'1']);
 //getEmp([21]);
@@ -237,3 +250,4 @@ module.exports.visit_summary = visit_summary;
 module.exports.visitor = visitor;
 module.exports.getEmp = getEmp;
 module.exports.isPresent = isPresent;
+module.exports.getAllEmp = getAllEmp;

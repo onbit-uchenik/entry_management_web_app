@@ -9,19 +9,21 @@ $('input').keypress(function(event){
             "isemployee":'1',
         };
         
-        $.post("/employee/entry",data,
+        $.post("/employee/exit",data,
             function (res, textStatus, jqXHR) {
                 if(res.status === 1){
-                    let ref = $('ul').append(`<li>You can enter redirecting to homepage </li>`);
+                    let ref = $('ul').append(`<li>You can exit redirecting to homepage... </li>`);
                     setTimeout(function(){
                         ref[0].children[1].remove();
+
                         setTimeout(function(){
                             window.history.back();
-                        },2000); 
+                        },2000);
                     },2000);
+                    
                 }
-                else if(res.status === 2){
-                    let ref = $('ul').append(`<li>You are trying to enter before exit</li>`);
+                else if(res.status === 3){
+                    let ref = $('ul').append(`<li>You are trying to exit before enter</li>`);
                     setTimeout(function(){
                         ref[0].children[1].remove();
                     },2000);

@@ -1,6 +1,52 @@
 <html>
     <head>
-        <title>visitor entry</title>
+        <title>Visitor Entry</title>
+        <link rel="stylesheet" href="../assests/css/style.css">
+        <script type="text/javascript" src="../assests/js/lib/jquerybuildmin.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700|Ubuntu+Mono&display=swap" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Calligraffitti&display=swap" rel="stylesheet">
+        
     </head>
-    <body>visitor entry</body>
+    <body>
+        <div id = "heading"> 
+            <h3>XYZ Company</h3>
+            
+            <div id="thought">
+                <p> <q>Hard work is key to Success</q></p>
+            </div>
+        </div>
+                
+        <div id = "container">
+            <h1>Athithi Devo Bhava       <span><i class="fa fa-heart" aria-hidden="true"></span></i></h1>
+            <div id="navigation">
+                <br>
+                <h2>Employee Details</h2>
+                <table>
+                <tr>
+                    <td><h4>Emp_id</h4></td>
+                    <td><h4>First_name</h4></td>
+                    <td><h4>Last_name</h4></td>
+                    <td><h4>Designation</h4></td>
+                </tr>
+                </table>
+                <br>
+                <h2>Enter Your Details</h2>
+                <input type="text" placeholder="Enter Phone_no" id = "phone_no">
+                <input type="text" placeholder="Enter the emp_id of person to visit" id="person_to_visit">
+                <input type="text" placeholder="Enter purpose of visit" id="purpose_of_visit">
+                <input type="text" placeholder="Enter email" id="email">
+                <input type="text" placeholder="Enter first name" id="first_name">
+                <input type="text" placeholder="Enter last name" id="last_name">
+                <input type="text" placeholder="Enter gender" id="sex">
+                <br>
+                <h2 id="submit">SUBMIT</h2>
+                <br>
+                <ul>
+                    <li>Message from server</li>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript" src="../assests/js/vis_entry.js"></script>
+    </body>    
 </html>

@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname  + '/public')));
 app.use('/employee/entry',employee_entry);
 app.use('/employee/exit',employee_exit);
 app.use('/visitor/entry',visitor_entry);
+app.use('/visitor/entry/emp_details',visitor_entry);
 app.use('/visitor/exit',visitor_exit);
 
 
