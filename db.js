@@ -235,6 +235,41 @@ async function getAllEmp() {
 }
 
 
+async function getCheckInTime(values){
+    try{
+        let id = await getMaxId([values[0]]);
+        let result  = await client.query(`SELECT checkin_time FROM history WHERE id=${id}`);
+        return result.rows[0].checkin_time;
+    }
+    catch(err){
+        console.log(__filename + err);
+        return {"status":0};
+    }
+}
+
+
+async function getHostVisited(values){
+    try{
+        let text = 'SELECT person_to_visit FROM visit_summary WHERE phone_no=$1 AND checkin_time=$2';
+        let result = await client.query(text,values);
+        return result.rows[0].person_to_visit;
+    }
+    catch(err){
+        console.log(__filename + err);
+        return {"status":0}
+    }
+}
+
+async function getVisitor(values){
+    try{
+        let text = 'SELECT first_name,last_name,email FROM visitor WHERE phone_no=$1 AND checkin_time=$2';
+        let result  = await client.query(text,values);
+    }
+    catch(err){
+        console.log(__filename + err);
+        return {"status":0}
+    }
+}
 //start();
 //entry(['9415436545','2019-07-23 06:36:45',2,'1']);
 //getEmp([21]);
@@ -251,3 +286,6 @@ module.exports.visitor = visitor;
 module.exports.getEmp = getEmp;
 module.exports.isPresent = isPresent;
 module.exports.getAllEmp = getAllEmp;
+module.exports.getCheckInTime = getCheckInTime;
+module.exports.getHostVisited = getHostVisited;
+module.exports.getVisitor = getVisitor;
