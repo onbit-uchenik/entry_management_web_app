@@ -6,6 +6,7 @@ const employee_entry  = express.Router();
 const lib = require('../lib/lib.js');
 
 employee_entry.use(bodyParser.json());
+employee_entry.use(bodyParser.urlencoded({extended:true}));
 
 
 employee_entry.route('/')
@@ -32,13 +33,13 @@ employee_entry.route('/')
             else if(result.status === 4){
                //employee with emp id do not exist...
                console.log("employee does not exist...")
-               res.statusCode = 404;
+               res.statusCode = 200;
                res.json(result);
                res.end();
             }
             else{
                // error while getting emp details..
-               res.statusCode = 500;;
+               res.statusCode = 200;;
                res.json(result);
                res.end();
             }
