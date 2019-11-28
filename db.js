@@ -154,7 +154,7 @@ async function check_exit(values){
 
 async function visitor(values){
     try{
-        let text = 'INSERT INTO visitor VALUES($1,$2,$3,$4,$5)';
+        let text = 'INSERT INTO visitor VALUES($1,$2,$3,$4,$5,$6)';
         await client.query(text,values);
         return {"status":1};
     }

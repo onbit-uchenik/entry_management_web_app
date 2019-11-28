@@ -87,17 +87,18 @@ async function check_emp_present(values,req,res,timestamp,host){
          //employee is present...
          let a = await enter(req,res,req.body.phone_no,timestamp);
          if(a===1){
-            let b = await addVisitor(req,res,req.body.phone_no);
+            let b = await addVisitor(req,res,req.body.phone_no,timestamp);
             let c = await addVisitorSummary(req,res,req.body.phone_no,timestamp);
-            if(b&&c) {
-               res.statusCode= 200;
+            if(b&&c){
+               res.statusCode = 200;
                res.json({"status":1});
+              // await mail(host,req);
             }
-            else {
+            else{
                res.statusCode = 500;
-               res.json({"status":0});   
+               res.json({"status":0});
             }
-            // await mail(host,req);
+            
          }
          else if(a===2){
             res.statusCode = 200;
@@ -141,9 +142,9 @@ async function enter(req,res,phone_no,timestamp){
 }
 
 
-async function addVisitor(req,res,phone_no){
+async function addVisitor(req,res,phone_no,timestamp){
    try{
-      let values = [phone_no,req.body.email,req.body.first_name,req.body.last_name,req.body.sex];
+      let values = [phone_no,req.body.email,req.body.first_name,req.body.last_name,req.body.sex,timestamp];
       console.log(values);
       let result = await db.visitor(values);
       return result.status;
@@ -172,7 +173,7 @@ async function mail(details,req) {
          service : "gmail",
          auth :{
             user :"onbitsyn@gmail.com",
-            pass :"{onbit#love4code}"
+            pass :"***"
          }
       });
       let mailoptions = {
