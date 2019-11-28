@@ -57,7 +57,7 @@ It contains 4 rest api end points :-
  valid employee id and then check entry before exit error.
 /employee/exit  :- For making exit of employee... It checks whether input is
  valid employee id and then check exit before entry error.
-/visitor/entry :- For entry of visitor it also stores the visitor details for   future reference. It email and sms host telling all                            Visitor's Details.
+/visitor/entry :- For entry of visitor it also stores the visitor details for   future reference. It email and sms host telling all Visitor's Details.
 /visitor/exit :- For making exit of visitor. It Thanking emails and sms Vistor  telling complete visitor summary.
 </pre>
 <pre>
@@ -79,7 +79,6 @@ Scope for future development :-
 3. Use of RFID Card at gates to make system more reliable and accessible/
 </pre>
 
-<pre>
+
     Thankyou Innovacer for giving me such a good project . I have learned a lot while completing it. 
     Some things I learned are  Postgresql,es6 async await features,database management and little bit of jquery,nodejs,express.
-</pre>
