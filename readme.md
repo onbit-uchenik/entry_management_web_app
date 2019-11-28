@@ -54,11 +54,11 @@ isemployee      boolean                       not null
 It contains 4 rest api end points :-
 <pre>
 /employee/entry :- For making entry of employee... It checks whether input is
-                   valid employee id and then check entry before exit error.
+ valid employee id and then check entry before exit error.
 /employee/exit  :- For making exit of employee... It checks whether input is
-                   valid employee id and then check exit before entry error.
-/visitor/entry :- For entry of visitor it also stores the visitor details for                    future reference. It email and sms host telling all                            Visitor's Details.
-/visitor/exit :- For making exit of visitor. It Thanking emails and sms Vistor                  telling complete visitor summary.
+ valid employee id and then check exit before entry error.
+/visitor/entry :- For entry of visitor it also stores the visitor details for   future reference. It email and sms host telling all                            Visitor's Details.
+/visitor/exit :- For making exit of visitor. It Thanking emails and sms Vistor  telling complete visitor summary.
 </pre>
 <pre>
 For easy maintainence for the application 6 error codes are used....
@@ -80,5 +80,6 @@ Scope for future development :-
 </pre>
 
 <pre>
-    Thankyou Innovacer for giving me such a good project . I have learned a lot while completing it. Some things I learned are  Postgresql,es6 async await features,database management and little bit of jquery,nodejs,express.
+    Thankyou Innovacer for giving me such a good project . I have learned a lot while completing it. 
+    Some things I learned are  Postgresql,es6 async await features,database management and little bit of jquery,nodejs,express.
 </pre>
