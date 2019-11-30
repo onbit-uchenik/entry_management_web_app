@@ -77,6 +77,12 @@ $('#submit').on('click',function(event) {
                     ref[0].children[1].remove();
                 },2000);                
             }
+            else {
+                let ref = $('ul').append(`<li> Enter valid input</li>`);
+                setTimeout(function(){
+                    ref[0].children[1].remove();
+                },2000);                
+            }
         },
         "json"
         );

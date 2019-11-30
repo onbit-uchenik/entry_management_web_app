@@ -6,6 +6,7 @@ const visitor_exit  = express.Router();
 const lib = require('../lib/lib.js');
 const nodemailer = require('nodemailer');
 visitor_exit.use(bodyParser.json());
+const process = require('process');
 
 
 visitor_exit.route('/')
@@ -19,7 +20,8 @@ visitor_exit.route('/')
    (async function (){
       try{
          await make_exit(req,res,req.body.phone_no,timestamp);
-         await message_visitor(req,res,req.body.phone_no,timestamp);
+         console.log(req.body.phone_no);
+         await message_visitor(req.body.phone_no);
 
          
       }
@@ -63,26 +65,33 @@ async function make_exit(req,res,phone_no,timestamp){
 
 }
 
-async function message_visitor(phone_no,checkout_time){
+async function message_visitor(phone_no){
    try{
-      let checkin_time = await db.getCheckInTime([phone_no]);
-      let hostVisited = await db.getHostVisited([phone_no,checkin_time]);
-      let host = await db.getEmp([hostVisited]);
-      let visit = await db.getVisitor([phone_no,checkin_time]);
-      let details ={
-         "checkin_time" : checkin_time,
-         "checkout_time" : checkout_time,
-         "host_name" : host.first_name + ' ' + host.last_name,
-         "phone_no" : phone_no,
-         "name" : visit.first_name + " " + visit.last_name,
-         "email" : visit.email,
+      let details={};
+      let result = await db.getCheckInTime([phone_no]);
+      if(result.status === 1){
+         details.checkin_time = result.checkin_time;
+         details.checkout_time = result.checkout_time;
+         
+         console.log(details);
+         console.log(typeof(details.checkin_time));
+         let result1 = await db.getVisitor([phone_no,result.checkin_time]);
+         let result2  = await db.getHostVisited([phone_no,result.checkin_time]);
+         if(result1.status === 1 && result2.status === 1){
+            details.email = result1.email;
+            details.name = result1.first_name + ' ' + result1.last_name;
+            details.host_name = result2.first_name + ' ' + result2.last_name;
+            details.address_visited = result2.cabin_address;
+            console.log(details);
+         }
       }
-      mail(details);
    }
    catch(err){
       console.log(err);
    }
 }
+
+
 
 async function mail(details) {
    try{
@@ -90,7 +99,7 @@ async function mail(details) {
          service : "gmail",
          auth :{
             user :"onbitsyn@gmail.com",
-            pass :"***"
+            pass :"{onbit#love4code}"
          }
       });
       let mailoptions = {
