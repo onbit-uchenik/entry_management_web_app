@@ -52,6 +52,7 @@ isemployee      boolean                       not null
 </pre>
 
 # It contains 4 rest api end points :-
+
 <pre>
 /employee/entry :- For making entry of employee... It checks whether input is
  valid employee id and then check entry before exit error.
@@ -63,6 +64,7 @@ isemployee      boolean                       not null
 <pre>
 
 # For easy maintainence for the application 6 error codes are used....
+
 0 :- Internal Server Error ..
      Error while querying the database.
      Error while connecting to database.
@@ -76,6 +78,7 @@ isemployee      boolean                       not null
 <pre>
 
 # Scope for future development :-
+
 1. Implementing Trie Data Structure to show the details of all employee in /visitor/entry page.
 2. Adding Adhar card feature to fetch the details of visitor so to increase the visitor's comfort.
 3. Use of RFID Card at gates to make system more reliable and accessible/
