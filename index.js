@@ -62,7 +62,7 @@ app.use('/employee/entry',employee_entry);
 app.use('/employee/exit',employee_exit);
 app.use('/visitor/entry',visitor_entry);
 app.use('/visitor/exit',visitor_exit);
-app.use('/suggestion',suggestion);
+
 
 
 
@@ -82,21 +82,21 @@ server.listen(port,hostname,()=>{
 
 
 
-// async function shutdown(signal) {
-//     try{
-//         console.log(`Received ${signal}`);
-//         await db.stop();
-//         await server.close();
-//         await process.exit();        
-//     }
-//     catch(err){
-//         console.log(__filename +'on line number : 61' + err);
-//     }
-// }
+async function shutdown(signal) {
+    try{
+        console.log(`Received ${signal}`);
+        await db.stop();
+        await server.close();
+        await process.exit();        
+    }
+    catch(err){
+        console.log(__filename +'on line number : 61' + err);
+    }
+}
 
 
-// process.on("SIGTERM",shutdown);
+process.on("SIGTERM",shutdown);
 
-// process.on("SIGINT",function(){
-//     console.log("Shut Me Down gracefully ....");
-// });
+process.on("SIGINT",function(){
+    console.log("Shut Me Down gracefully ....");
+});

@@ -29,7 +29,6 @@
          try{
             let values = [req.body.emp_id];
             let result = await db.getEmp(values);
-            console.log(result);
             if(result.status === 1) {
                // successful in getting emp details
                // enter nicely....

@@ -52,7 +52,7 @@ async function entry(values){
         } 
     }
     catch(err){
-        console.log(__filename + ' hfwhefewo on line number 54' + err);
+        console.log(__filename + ' on line number 54' + err);
         return {"status":0};
     }
 }
@@ -65,7 +65,6 @@ async function check_entry(values){
             if(id !== null) {
                 let text=`SELECT checkout_time FROM history WHERE id=${id}`;
                 let result = await client.query(text);
-                console.log(result.rows[0].checkout_time);
                 return result.rows[0].checkout_time;
             }
             else{
@@ -131,7 +130,6 @@ async function check_exit(values){
             if(id !== null) {
                 let text=`SELECT checkout_time FROM history WHERE id=${id}`;
                 let result = await client.query(text);
-                console.log(result.rows[0].checkout_time);
                 return [result.rows[0].checkout_time,id];
             }
             else{
@@ -223,7 +221,7 @@ async function isPresent(values) {
 
 async function getAllEmp() {
     try{
-        let result = await client.query("SELECT CONCAT (first_name,' ',last_name) AS name,emp_id,designation FROM emp")
+        let result = await client.query("SELECT emp_id,CONCAT (first_name,' ',last_name) AS name,designation FROM emp")
         return result.rows;
     }
     catch(err){
@@ -241,10 +239,7 @@ async function getCheckInTime(values){
             if(id !== null) {
                 let text  = 'SELECT checkin_time,checkout_time FROM history WHERE id=$1';
                 let result = await client.query(text,[id]);
-                console.log('GET CHECKIN TIME');
-                console.log(result);
                 result.rows[0].status = 1;
-                
                 return result.rows[0];
             }
             else{
@@ -281,8 +276,6 @@ async function getVisitor(values){
     try{
         let text = 'SELECT first_name,last_name,email FROM visitor WHERE phone_no=$1 AND checkin_time=$2';
         let result  = await client.query(text,values);
-        console.log('GET VISITOR');
-        console.log(result);
         result.rows[0].status  = 1;
         return result.rows[0];
     }

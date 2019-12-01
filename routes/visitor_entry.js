@@ -7,6 +7,12 @@
    const lib = require('../lib/lib.js');
    const nodemailer = require('nodemailer');
 
+
+   const accountSid = 'AC3d932d6352f83202d1b50aa8b467b802';
+   const authToken = '****';
+
+   const client  =  require('twilio')(accountSid,authToken);
+
    visitor_entry.use(bodyParser.json());
 
 
@@ -64,6 +70,14 @@
       res.end();            
    });
 
+   visitor_entry.route('/emp_details')
+   .get(function(req,res,next) {
+      (async function () {
+         let result = await db.getAllEmp();
+         res.json(result);
+         res.end();
+      })();
+   });
 
 
    async function check_emp_present(values,req,res,timestamp,host){
@@ -79,6 +93,7 @@
                   res.statusCode = 200;
                   res.json({"status":1});
                   await mail(host,req);
+                  await sms(host,req);
                }
                else{
                   res.statusCode = 200;
@@ -98,7 +113,6 @@
          else if(result.status === 5){
             //employee is absent.....
             res.statusCode = 200;
-            console.log(result);
             res.json(result);
          }
          else{
@@ -135,7 +149,6 @@
    async function addVisitor(req,res,phone_no,timestamp){
       try{
          let values = [phone_no,req.body.email,req.body.first_name,req.body.last_name,req.body.sex,timestamp];
-         console.log(values);
          let result = await db.visitor(values);
          return result.status;
       }
@@ -163,12 +176,12 @@
             service : "gmail",
             auth :{
                user :"onbitsyn@gmail.com",
-               pass :"{onbit#love4code}"
+               pass :"******"
             }
          });
          let mailoptions = {
             from : "onbitsyn@gmail.com",
-            to:`${req.body.email}`,
+            to:`${details.email}`,
             subject:"Visitor Detail",
             text:`hello ${details.first_name + ' ' + details.last_name},
    Visitor with details:
@@ -187,6 +200,29 @@
       }
    }
 
+   async function sms(details,req) {
+
+      client.messages.create({
+         to: `+91${details.phone_no}`,
+         from : '+19388887157',
+         body : `hello ${details.first_name + ' ' + details.last_name},
+         Visitor with details:
+         Name: ${req.body.first_name}  ${req.body.last_name}
+         Phone_no:${req.body.phone_no}
+         Email:${req.body.email}
+         is coming to meet you. 
+                  
+         Have a nice meeting...` 
+      })
+      .then(function() {
+      console.log('message sent');
+      
+      })
+      .catch(function(err) {
+         console.log(err);
+         console.log('some error occured');
+      })
+   }
 
 
    module.exports = visitor_entry;

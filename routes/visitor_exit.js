@@ -8,6 +8,11 @@ const nodemailer = require('nodemailer');
 visitor_exit.use(bodyParser.json());
 const process = require('process');
 
+const accountSid = 'AC3d932d6352f83202d1b50aa8b467b802';
+const authToken = '******';
+
+const client  =  require('twilio')(accountSid,authToken);
+
 
 visitor_exit.route('/')
 .get(function(req,res,next){
@@ -20,7 +25,6 @@ visitor_exit.route('/')
    (async function (){
       try{
          await make_exit(req,res,req.body.phone_no,timestamp);
-         console.log(req.body.phone_no);
          await message_visitor(req.body.phone_no);
 
          
@@ -72,9 +76,6 @@ async function message_visitor(phone_no){
       if(result.status === 1){
          details.checkin_time = result.checkin_time;
          details.checkout_time = result.checkout_time;
-         
-         console.log(details);
-         console.log(typeof(details.checkin_time));
          let result1 = await db.getVisitor([phone_no,result.checkin_time]);
          let result2  = await db.getHostVisited([phone_no,result.checkin_time]);
          if(result1.status === 1 && result2.status === 1){
@@ -82,7 +83,8 @@ async function message_visitor(phone_no){
             details.name = result1.first_name + ' ' + result1.last_name;
             details.host_name = result2.first_name + ' ' + result2.last_name;
             details.address_visited = result2.cabin_address;
-            console.log(details);
+            await mail(details);
+            await sms(details);
          }
       }
    }
@@ -99,7 +101,7 @@ async function mail(details) {
          service : "gmail",
          auth :{
             user :"onbitsyn@gmail.com",
-            pass :"{onbit#love4code}"
+            pass :"*****"
          }
       });
       let mailoptions = {
@@ -111,7 +113,7 @@ Here is your visit details..
    Checkin Time : ${details.checkin_time},
    Checkout Time : ${details.checkout_time},
    Host Name : ${details.host_name},
-   Phone_no : ${details.phone_no}      
+   Address_visited : ${details.address_visited}      
 Have a nice day...`
       };
       await transporter.sendMail(mailoptions);
@@ -120,6 +122,28 @@ Have a nice day...`
    catch(err) {
       console.log(err);
    }
+}
+
+async function sms(details) {
+   client.messages.create({
+      to: `+91${details.phone_no}`,
+      from : '+19388887157',
+      body : `hello ${details.name},
+      Here is your visit details..
+         Checkin Time : ${details.checkin_time},
+         Checkout Time : ${details.checkout_time},
+         Host Name : ${details.host_name},
+         Phone_no : ${details.phone_no}      
+      Have a nice day...`
+   })
+   .then(function() {
+   console.log('message sent');
+   
+   })
+   .catch(function(err) {
+      console.log(err);
+      console.log('some error occured');
+   })
 }
 
 module.exports = visitor_exit;

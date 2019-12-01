@@ -4,8 +4,7 @@ $(document).ready(function(){
         for(row in data){
             x='<tr>';
             x += `<td>${data[row].emp_id}</td>`;
-            x += `<td>${data[row].first_name}</td>`;
-            x += `<td>${data[row].last_name}</td>`;
+            x += `<td>${data[row].name}</td>`;
             x += `<td>${data[row].designation}</td>`
             x += '</tr>'
             $('table').append(x);
