@@ -100,13 +100,13 @@ For More Images - https://github.com/onbitSyn/entry_management_web_app/tree/mast
 2. Trigger the SMS to the host informing him of the details of the visitor.
 3. Visually Interative Responsive WebSite
 4. Time Stamping DataBase
+5. Trie Data Structure is used to search the employee.
 
 
 ## Scope for future development :-
 
-1. Implementing Trie Data Structure to show the details of all employee in /visitor/entry page.
-2. Adding Adhar card feature to fetch the details of visitor so to increase the visitor's comfort.
-3. Use of RFID Card at gates to make system more reliable and accessible/
+1. Adding Adhar card feature to fetch the details of visitor so to increase the visitor's comfort.
+2. Use of RFID Card at gates to make system more reliable and accessible/
 
 
 ### Thank you Innovacer for giving me such a good project . 
