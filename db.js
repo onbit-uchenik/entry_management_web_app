@@ -52,7 +52,7 @@ async function entry(values){
         } 
     }
     catch(err){
-        console.log(__filename + ' on line number 54' + err);
+        console.log(__filename + ' hfwhefewo on line number 54' + err);
         return {"status":0};
     }
 }
@@ -181,7 +181,6 @@ async function getEmp(emp_id){
     try{
         let text = 'SELECT * FROM emp WHERE emp_id=$1';
         let result = await client.query(text,emp_id);
-        console.log(result);
         if(result.rowCount !== 0){
             result.rows[0].status = 1;
             return result.rows[0];
@@ -224,7 +223,7 @@ async function isPresent(values) {
 
 async function getAllEmp() {
     try{
-        let result = await client.query('SELECT emp_id,first_name,last_name,designation FROM emp')
+        let result = await client.query("SELECT CONCAT (first_name,' ',last_name) AS name,emp_id,designation FROM emp")
         return result.rows;
     }
     catch(err){
@@ -238,8 +237,25 @@ async function getAllEmp() {
 async function getCheckInTime(values){
     try{
         let id = await getMaxId([values[0]]);
-        let result  = await client.query(`SELECT checkin_time FROM history WHERE id=${id}`);
-        return result.rows[0].checkin_time;
+        if(id !== 0) {
+            if(id !== null) {
+                let text  = 'SELECT checkin_time,checkout_time FROM history WHERE id=$1';
+                let result = await client.query(text,[id]);
+                console.log('GET CHECKIN TIME');
+                console.log(result);
+                result.rows[0].status = 1;
+                
+                return result.rows[0];
+            }
+            else{
+                console.log('no such visitor exist');
+                return {"status":0};
+            }
+        }
+        else{
+            console.log('error while getting maxid');
+            return {"status":0};
+        }
     }
     catch(err){
         console.log(__filename + err);
@@ -252,7 +268,8 @@ async function getHostVisited(values){
     try{
         let text = 'SELECT person_to_visit FROM visit_summary WHERE phone_no=$1 AND checkin_time=$2';
         let result = await client.query(text,values);
-        return result.rows[0].person_to_visit;
+        result = await getEmp([result.rows[0].person_to_visit]);
+        return result;
     }
     catch(err){
         console.log(__filename + err);
@@ -264,18 +281,22 @@ async function getVisitor(values){
     try{
         let text = 'SELECT first_name,last_name,email FROM visitor WHERE phone_no=$1 AND checkin_time=$2';
         let result  = await client.query(text,values);
+        console.log('GET VISITOR');
+        console.log(result);
+        result.rows[0].status  = 1;
+        return result.rows[0];
     }
     catch(err){
         console.log(__filename + err);
         return {"status":0}
     }
 }
-//start();
-//entry(['9415436545','2019-07-23 06:36:45',2,'1']);
-//getEmp([21]);
-//exit(['8708823287','2017-09-06 08:45:34',3]);
-//exit(['9415436545','2017-08-06 09:42:20',4])
+//  start();
 
+//  (async function () {
+//      let res =  await getCheckInTime(['5556666777']);
+//      console.log(res); 
+//  })();
 
 module.exports.start = start;
 module.exports.stop = stop;
