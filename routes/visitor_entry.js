@@ -10,6 +10,7 @@
    visitor_entry.use(bodyParser.json());
 
 
+
    visitor_entry.route('/')
    .get(function(req,res,next){
       let path_to_directory =  path.dirname(__dirname);
@@ -63,23 +64,6 @@
       res.end();            
    });
 
-   visitor_entry.route('/emp_details') 
-   .get(function(req,res,next){
-      (async function() {
-         try{
-            let result  = await  db.getAllEmp();
-            res.statusCode = 200;
-            res.json(result);
-
-         }
-         catch(err) {
-            res.statusCode = 500;
-            res.json({"status":0});
-            console.log(__filename + err);
-         }
-         res.end();
-      })();
-   });
 
 
    async function check_emp_present(values,req,res,timestamp,host){

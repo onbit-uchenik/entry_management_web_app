@@ -223,7 +223,7 @@ async function isPresent(values) {
 
 async function getAllEmp() {
     try{
-        let result = await client.query('SELECT emp_id,first_name,last_name,designation FROM emp')
+        let result = await client.query("SELECT CONCAT (first_name,' ',last_name) AS name,emp_id,designation FROM emp")
         return result.rows;
     }
     catch(err){
