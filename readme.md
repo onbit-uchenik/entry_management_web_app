@@ -1,4 +1,4 @@
-                    Entry Management Web Application
+#                    Entry Management Web Application
 
 
 A simple and beautiful web application for Entry Management in offices . It uses Postgresql Database in Backend , which is The World's Most Advanced Open Source Relational Database, along with nodejs and express.
@@ -6,7 +6,7 @@ A simple and beautiful web application for Entry Management in offices . It uses
 Database Contains 4 Tables :-
 
                         
-                    Table Name : public.history
+ #                   Table Name : public.history
 <pre>                    
 Column Name     Type                             Constraints
 id              bigint                        not null primary key
@@ -18,7 +18,7 @@ exit_gate       integer
 isemployee      boolean                       not null  
 </pre>
 
-                         Table Name : "public.emp"
+#                         Table Name : "public.emp"
 <pre>   
     Column            Type                        Constraints
  emp_id       integer                           not null  primary key
@@ -29,7 +29,7 @@ isemployee      boolean                       not null
  designation  character varying(30)             not null  
 </pre>
 
-                        Table Name : "public.visitor"                       
+ #                       Table Name : "public.visitor"                       
 <pre>
     Column                Type                           Constraints 
  phone_no      character(10)                           not null primary key 
@@ -41,7 +41,7 @@ isemployee      boolean                       not null
  </pre>
 
 
-                         Table "public.visit_summary"
+ #                        Table "public.visit_summary"
 <pre>
       Column                  Type                        Constraints
 
@@ -79,6 +79,5 @@ Scope for future development :-
 3. Use of RFID Card at gates to make system more reliable and accessible/
 </pre>
 
-
-    Thankyou Innovacer for giving me such a good project . I have learned a lot while completing it. 
-    Some things I learned are  Postgresql,es6 async await features,database management and little bit of jquery,nodejs,express.
+Thankyou Innovacer for giving me such a good project . I have learned a lot while completing it. 
+Some things I learned are  Postgresql,es6 async await features,database management and little bit of jquery,nodejs,express.
