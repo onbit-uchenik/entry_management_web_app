@@ -6,21 +6,18 @@ const app  = express();
 const db = require('./db.js');
 const process = require('process');
 const path = require('path');
-const lib = require('./lib/suggestion_engine.js');
+
 
 const employee_entry = require('./routes/employee_entry');
 const employee_exit = require('./routes/employee_exit');
 const visitor_entry  = require('./routes/visitor_entry');
 const visitor_exit  = require('./routes/visitor_exit');
-const suggestion = require('./routes/suggestion.js');
-let root;
-let details;
+
 process.stdin.resume();
 
 (async function(){
     try{
         await db.start();
-        await init();
         
     }
     catch(err){
@@ -82,22 +79,7 @@ server.listen(port,hostname,()=>{
 
 
 
-async function init() {
-    details = await getData();
-    console.log(details);
-    root = new lib.Node;
-    root.init();
 
-    for(let i=0;i<details.length;i++) {
-        lib.insert(details[i].name,0,root,i);
-    }
-    console.log(root);
-}
-
-async function getData(){
-     let result  = await  db.getAllEmp();
-     return result;
-}
 
 
 // async function shutdown(signal) {
@@ -118,6 +100,3 @@ async function getData(){
 // process.on("SIGINT",function(){
 //     console.log("Shut Me Down gracefully ....");
 // });
-
-module.exports.root = root;
-module.exports.details = details;
