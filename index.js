@@ -6,19 +6,20 @@ const app  = express();
 const db = require('./db.js');
 const process = require('process');
 const path = require('path');
+const lib = require('./lib/suggestion_engine');
 
 
 const employee_entry = require('./routes/employee_entry');
 const employee_exit = require('./routes/employee_exit');
 const visitor_entry  = require('./routes/visitor_entry');
 const visitor_exit  = require('./routes/visitor_exit');
-
+const suggestion = require('./routes/suggestion.js');
 process.stdin.resume();
 
 (async function(){
     try{
         await db.start();
-        
+        await suggestion.init();     
     }
     catch(err){
         console.log(__filename + 'on line number 16' + err);
@@ -62,7 +63,7 @@ app.use('/employee/entry',employee_entry);
 app.use('/employee/exit',employee_exit);
 app.use('/visitor/entry',visitor_entry);
 app.use('/visitor/exit',visitor_exit);
-
+app.use('/suggestion',suggestion);
 
 
 
@@ -82,21 +83,22 @@ server.listen(port,hostname,()=>{
 
 
 
-async function shutdown(signal) {
-    try{
-        console.log(`Received ${signal}`);
-        await db.stop();
-        await server.close();
-        await process.exit();        
-    }
-    catch(err){
-        console.log(__filename +'on line number : 61' + err);
-    }
-}
+
+// async function shutdown(signal) {
+//     try{
+//         console.log(`Received ${signal}`);
+//         await db.stop();
+//         await server.close();
+//         await process.exit();        
+//     }
+//     catch(err){
+//         console.log(__filename +'on line number : 61' + err);
+//     }
+// }
 
 
-process.on("SIGTERM",shutdown);
+// process.on("SIGTERM",shutdown);
 
-process.on("SIGINT",function(){
-    console.log("Shut Me Down gracefully ....");
-});
+// process.on("SIGINT",function(){
+//     console.log("Shut Me Down gracefully ....");
+// });

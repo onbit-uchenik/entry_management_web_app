@@ -70,14 +70,6 @@
       res.end();            
    });
 
-   visitor_entry.route('/emp_details')
-   .get(function(req,res,next) {
-      (async function () {
-         let result = await db.getAllEmp();
-         res.json(result);
-         res.end();
-      })();
-   });
 
 
    async function check_emp_present(values,req,res,timestamp,host){

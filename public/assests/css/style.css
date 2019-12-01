@@ -119,3 +119,7 @@ h2 {
     outline:none;
     background-color: white;
 }
+
+.suggestion{
+    display: none;
+}
